@@ -8,16 +8,28 @@ namespace HttpLoad
 {
     public class TParam
     {
-        public int index;
-        public int timeOut;
-        public string url;
-        public string agent = "ZZTX_Http_Load_1.0";
-        public string httpmethod = "GET";
-        public string postdata = string.Empty;
-        public Dictionary<string, string> httpheader;
-        public ConcurrentMethod concurrentMethod;
-        public string[] resultcache;
-        public double[] responsetime;
+        public int Index;
+        public int TimeOut=30;
+        public string Url;
+        public string Agent = "ZZTX_Http_Load_1.0";
+        public string Httpmethod = "GET";
+        public string Postdata = string.Empty;
+        public Dictionary<string, string> Httpheader;
+        public ConcurrentMethod ConcurrentMethod;
+        public string[] Resultcache;
+        public double[] Responsetime;
 
+        public int RandomTimeRange = 30;
+        public int OrderInterval = 5;
+        public int OrderIncrease = 20;
+
+        public int Sleep = 0;
+
+        public Percent PercentData;
+
+        public TParam Copy()
+        {
+            return this.MemberwiseClone() as TParam;
+        }
     }
 }

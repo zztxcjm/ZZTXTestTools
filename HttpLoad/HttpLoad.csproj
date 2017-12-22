@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="AppCode\ConcurrentMethod.cs" />
     <Compile Include="AppCode\ConcurrentMethodOption.cs" />
+    <Compile Include="AppCode\Percent.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

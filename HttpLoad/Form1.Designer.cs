@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtUrl = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,11 +43,22 @@
             this.btOpenExcel = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.txtPostData = new System.Windows.Forms.TextBox();
-            this.btOpenChart = new System.Windows.Forms.Button();
             this.txtHttpHeader = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lstConcurrentMethod = new System.Windows.Forms.ComboBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lbRandomTimeRange = new System.Windows.Forms.Label();
+            this.txtRandomTimeRange = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lbOrderIncrease = new System.Windows.Forms.Label();
+            this.lbOrderInterval = new System.Windows.Forms.Label();
+            this.txtOrderIncrease = new System.Windows.Forms.TextBox();
+            this.txtOrderInterval = new System.Windows.Forms.TextBox();
+            this.lbPercent = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtUrl
@@ -84,22 +96,22 @@
             this.txtResult.ReadOnly = true;
             this.txtResult.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtResult.Size = new System.Drawing.Size(671, 139);
-            this.txtResult.TabIndex = 4;
+            this.txtResult.TabIndex = 100;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(744, 22);
+            this.label3.Location = new System.Drawing.Point(724, 22);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 12);
+            this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 1;
-            this.label3.Text = "人数(必填)";
+            this.label3.Text = "人数";
             // 
             // txtThreadCount
             // 
-            this.txtThreadCount.Location = new System.Drawing.Point(746, 37);
+            this.txtThreadCount.Location = new System.Drawing.Point(726, 37);
             this.txtThreadCount.Name = "txtThreadCount";
-            this.txtThreadCount.Size = new System.Drawing.Size(117, 21);
+            this.txtThreadCount.Size = new System.Drawing.Size(135, 21);
             this.txtThreadCount.TabIndex = 3;
             this.txtThreadCount.Text = "100";
             // 
@@ -108,32 +120,32 @@
             this.btStart.Location = new System.Drawing.Point(24, 536);
             this.btStart.Name = "btStart";
             this.btStart.Size = new System.Drawing.Size(75, 23);
-            this.btStart.TabIndex = 2;
+            this.btStart.TabIndex = 10;
             this.btStart.Text = "开始";
             this.btStart.UseVisualStyleBackColor = true;
             this.btStart.Click += new System.EventHandler(this.btStart_Click);
             // 
             // txtTimeout
             // 
-            this.txtTimeout.Location = new System.Drawing.Point(746, 101);
+            this.txtTimeout.Location = new System.Drawing.Point(726, 101);
             this.txtTimeout.Name = "txtTimeout";
-            this.txtTimeout.Size = new System.Drawing.Size(117, 21);
+            this.txtTimeout.Size = new System.Drawing.Size(135, 21);
             this.txtTimeout.TabIndex = 4;
             this.txtTimeout.Text = "30";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(744, 77);
+            this.label4.Location = new System.Drawing.Point(724, 77);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(89, 12);
+            this.label4.Size = new System.Drawing.Size(77, 12);
             this.label4.TabIndex = 1;
-            this.label4.Text = "超时秒数(必填)";
+            this.label4.Text = "请求超时(秒)";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(744, 140);
+            this.label5.Location = new System.Drawing.Point(724, 140);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
             this.label5.TabIndex = 1;
@@ -146,17 +158,18 @@
             this.lstHttpMethod.Items.AddRange(new object[] {
             "GET",
             "POST"});
-            this.lstHttpMethod.Location = new System.Drawing.Point(746, 162);
+            this.lstHttpMethod.Location = new System.Drawing.Point(726, 162);
             this.lstHttpMethod.Name = "lstHttpMethod";
-            this.lstHttpMethod.Size = new System.Drawing.Size(117, 20);
+            this.lstHttpMethod.Size = new System.Drawing.Size(135, 20);
             this.lstHttpMethod.TabIndex = 5;
             // 
             // btOpenExcel
             // 
-            this.btOpenExcel.Location = new System.Drawing.Point(502, 536);
+            this.btOpenExcel.Enabled = false;
+            this.btOpenExcel.Location = new System.Drawing.Point(584, 536);
             this.btOpenExcel.Name = "btOpenExcel";
             this.btOpenExcel.Size = new System.Drawing.Size(111, 23);
-            this.btOpenExcel.TabIndex = 2;
+            this.btOpenExcel.TabIndex = 11;
             this.btOpenExcel.Text = "在Excel中查看结果";
             this.btOpenExcel.UseVisualStyleBackColor = true;
             this.btOpenExcel.Click += new System.EventHandler(this.btOpenExcel_Click);
@@ -179,16 +192,6 @@
             this.txtPostData.Size = new System.Drawing.Size(671, 100);
             this.txtPostData.TabIndex = 1;
             // 
-            // btOpenChart
-            // 
-            this.btOpenChart.Location = new System.Drawing.Point(619, 536);
-            this.btOpenChart.Name = "btOpenChart";
-            this.btOpenChart.Size = new System.Drawing.Size(79, 23);
-            this.btOpenChart.TabIndex = 2;
-            this.btOpenChart.Text = "查看图表";
-            this.btOpenChart.UseVisualStyleBackColor = true;
-            this.btOpenChart.Click += new System.EventHandler(this.btOpenChart_Click);
-            // 
             // txtHttpHeader
             // 
             this.txtHttpHeader.Location = new System.Drawing.Point(24, 250);
@@ -210,7 +213,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(744, 195);
+            this.label8.Location = new System.Drawing.Point(724, 195);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 12);
             this.label8.TabIndex = 1;
@@ -220,19 +223,109 @@
             // 
             this.lstConcurrentMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.lstConcurrentMethod.FormattingEnabled = true;
-            this.lstConcurrentMethod.Location = new System.Drawing.Point(746, 218);
+            this.lstConcurrentMethod.Location = new System.Drawing.Point(726, 218);
             this.lstConcurrentMethod.Name = "lstConcurrentMethod";
-            this.lstConcurrentMethod.Size = new System.Drawing.Size(117, 20);
-            this.lstConcurrentMethod.TabIndex = 5;
+            this.lstConcurrentMethod.Size = new System.Drawing.Size(135, 20);
+            this.lstConcurrentMethod.TabIndex = 6;
+            this.lstConcurrentMethod.SelectedIndexChanged += new System.EventHandler(this.lstConcurrentMethod_SelectedIndexChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lbRandomTimeRange);
+            this.panel1.Controls.Add(this.txtRandomTimeRange);
+            this.panel1.Location = new System.Drawing.Point(726, 250);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(146, 52);
+            this.panel1.TabIndex = 101;
+            this.panel1.Visible = false;
+            // 
+            // lbRandomTimeRange
+            // 
+            this.lbRandomTimeRange.AutoSize = true;
+            this.lbRandomTimeRange.Location = new System.Drawing.Point(-2, 0);
+            this.lbRandomTimeRange.Name = "lbRandomTimeRange";
+            this.lbRandomTimeRange.Size = new System.Drawing.Size(137, 12);
+            this.lbRandomTimeRange.TabIndex = 102;
+            this.lbRandomTimeRange.Text = "在时间范围内随机（秒）";
+            // 
+            // txtRandomTimeRange
+            // 
+            this.txtRandomTimeRange.Location = new System.Drawing.Point(0, 24);
+            this.txtRandomTimeRange.Name = "txtRandomTimeRange";
+            this.txtRandomTimeRange.Size = new System.Drawing.Size(135, 21);
+            this.txtRandomTimeRange.TabIndex = 103;
+            this.txtRandomTimeRange.Text = "30";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.lbOrderIncrease);
+            this.panel2.Controls.Add(this.lbOrderInterval);
+            this.panel2.Controls.Add(this.txtOrderIncrease);
+            this.panel2.Controls.Add(this.txtOrderInterval);
+            this.panel2.Location = new System.Drawing.Point(726, 308);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(146, 113);
+            this.panel2.TabIndex = 102;
+            this.panel2.Visible = false;
+            // 
+            // lbOrderIncrease
+            // 
+            this.lbOrderIncrease.AutoSize = true;
+            this.lbOrderIncrease.Location = new System.Drawing.Point(-2, 56);
+            this.lbOrderIncrease.Name = "lbOrderIncrease";
+            this.lbOrderIncrease.Size = new System.Drawing.Size(65, 12);
+            this.lbOrderIncrease.TabIndex = 10;
+            this.lbOrderIncrease.Text = "增长请求数";
+            // 
+            // lbOrderInterval
+            // 
+            this.lbOrderInterval.AutoSize = true;
+            this.lbOrderInterval.Location = new System.Drawing.Point(-2, 0);
+            this.lbOrderInterval.Name = "lbOrderInterval";
+            this.lbOrderInterval.Size = new System.Drawing.Size(113, 12);
+            this.lbOrderInterval.TabIndex = 11;
+            this.lbOrderInterval.Text = "间隔时间递增（秒）";
+            // 
+            // txtOrderIncrease
+            // 
+            this.txtOrderIncrease.Location = new System.Drawing.Point(0, 80);
+            this.txtOrderIncrease.Name = "txtOrderIncrease";
+            this.txtOrderIncrease.Size = new System.Drawing.Size(135, 21);
+            this.txtOrderIncrease.TabIndex = 13;
+            this.txtOrderIncrease.Text = "20";
+            // 
+            // txtOrderInterval
+            // 
+            this.txtOrderInterval.Location = new System.Drawing.Point(0, 24);
+            this.txtOrderInterval.Name = "txtOrderInterval";
+            this.txtOrderInterval.Size = new System.Drawing.Size(135, 21);
+            this.txtOrderInterval.TabIndex = 12;
+            this.txtOrderInterval.Text = "5";
+            // 
+            // lbPercent
+            // 
+            this.lbPercent.AutoSize = true;
+            this.lbPercent.Location = new System.Drawing.Point(105, 541);
+            this.lbPercent.Name = "lbPercent";
+            this.lbPercent.Size = new System.Drawing.Size(17, 12);
+            this.lbPercent.TabIndex = 103;
+            this.lbPercent.Text = "0%";
+            this.lbPercent.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 592);
+            this.Controls.Add(this.lbPercent);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.lstConcurrentMethod);
             this.Controls.Add(this.lstHttpMethod);
-            this.Controls.Add(this.btOpenChart);
             this.Controls.Add(this.btOpenExcel);
             this.Controls.Add(this.btStart);
             this.Controls.Add(this.label8);
@@ -252,8 +345,12 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "HttpLoad";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -275,11 +372,20 @@
         private System.Windows.Forms.Button btOpenExcel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtPostData;
-        private System.Windows.Forms.Button btOpenChart;
         private System.Windows.Forms.TextBox txtHttpHeader;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox lstConcurrentMethod;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lbRandomTimeRange;
+        private System.Windows.Forms.TextBox txtRandomTimeRange;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lbOrderIncrease;
+        private System.Windows.Forms.Label lbOrderInterval;
+        private System.Windows.Forms.TextBox txtOrderIncrease;
+        private System.Windows.Forms.TextBox txtOrderInterval;
+        private System.Windows.Forms.Label lbPercent;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
