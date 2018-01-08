@@ -32,7 +32,7 @@ namespace WSPreLoad
 
                             var startDate = DateTime.Now;
                             var httpcode = 0;
-                            var resp = SendRequest(webapp.Url,out httpcode);
+                            var resp = SendRequest(webapp.Url, out httpcode);
                             var endDate = DateTime.Now;
 
                             Console.WriteLine($"{webapp.Url}，code:{httpcode},time:{(endDate - startDate).TotalMilliseconds}ms");
@@ -47,7 +47,7 @@ namespace WSPreLoad
                 }, item));
             }
 
-            Task.WhenAll(tasks).ContinueWith(t=> {
+            Task.WhenAll(tasks).ContinueWith(t => {
 
                 Console.WriteLine("处理完成");
 
@@ -113,7 +113,7 @@ namespace WSPreLoad
                 var arr = val.Split(new char[] { ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var p in arr)
                 {
-                    lst.Add(new WebApp() { SiteName = siteName, Url = url.TrimEnd('/') + p.TrimStart('/') });
+                    lst.Add(new WebApp() { SiteName = siteName, Url = url.TrimEnd('/') + "/" + p.TrimStart('/') });
                 }
             }
 
@@ -126,7 +126,22 @@ namespace WSPreLoad
             request.Method = "GET";
             request.UserAgent = "ZZTX WSPreLoad";
             request.ContentType = "text/html";
-            request.Timeout = 100 * 1000;
+
+            var WebRequestTimeOut = System.Configuration.ConfigurationManager.AppSettings["WebRequestTimeOut"];
+            if (String.IsNullOrEmpty(WebRequestTimeOut))
+                request.Timeout = 100 * 1000;
+            else
+            {
+                int WebRequestTimeOut_int;
+                if (int.TryParse(WebRequestTimeOut, out WebRequestTimeOut_int))
+                {
+                    request.Timeout = WebRequestTimeOut_int * 1000;
+                }
+                else
+                {
+                    request.Timeout = 100 * 1000;
+                }
+            }
 
             //获取请求
             using (HttpWebResponse wr = (HttpWebResponse)request.GetResponse())

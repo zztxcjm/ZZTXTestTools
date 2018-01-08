@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpLoad", "HttpLoad\HttpLoad.csproj", "{D6D3E926-D3E9-456B-ADDA-0E6AA971BDA4}"
 EndProject
@@ -16,10 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWatcher", "FileWatcher\FileWatcher.csproj", "{A665BD3A-122A-405C-8338-E24415D6197F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenameTool", "RenameTool\RenameTool.csproj", "{A218C516-CDD9-46E9-81DB-4541AB1BBE1C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SexyMonitor", "SexyMonitor\SexyMonitor.csproj", "{B840FAB3-7067-4A36-8884-601E04A1B607}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlEncoderDecoder", "XmlEncoderDecoder\XmlEncoderDecoder.csproj", "{1368F6F3-9CD8-48C8-90C7-AF8AE822E25D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,16 +51,11 @@ Global
 		{A218C516-CDD9-46E9-81DB-4541AB1BBE1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A218C516-CDD9-46E9-81DB-4541AB1BBE1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A218C516-CDD9-46E9-81DB-4541AB1BBE1C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B840FAB3-7067-4A36-8884-601E04A1B607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B840FAB3-7067-4A36-8884-601E04A1B607}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B840FAB3-7067-4A36-8884-601E04A1B607}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B840FAB3-7067-4A36-8884-601E04A1B607}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1368F6F3-9CD8-48C8-90C7-AF8AE822E25D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1368F6F3-9CD8-48C8-90C7-AF8AE822E25D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1368F6F3-9CD8-48C8-90C7-AF8AE822E25D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1368F6F3-9CD8-48C8-90C7-AF8AE822E25D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CAF88ED8-2BBC-4E1C-90AD-DF9307682BBA}
 	EndGlobalSection
 EndGlobal
