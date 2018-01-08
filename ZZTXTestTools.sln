@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpLoad", "HttpLoad\HttpLoad.csproj", "{D6D3E926-D3E9-456B-ADDA-0E6AA971BDA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSPreLoad", "WSPreLoad\WSPreLoad.csproj", "{BC40CF5B-CAED-4FC1-BA96-B42781FEDFDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebLogClear", "WebLogClear\WebLogClear.csproj", "{0E51113A-E695-4E68-B106-0CE6ED22CBA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{D6D3E926-D3E9-456B-ADDA-0E6AA971BDA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6D3E926-D3E9-456B-ADDA-0E6AA971BDA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6D3E926-D3E9-456B-ADDA-0E6AA971BDA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC40CF5B-CAED-4FC1-BA96-B42781FEDFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC40CF5B-CAED-4FC1-BA96-B42781FEDFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC40CF5B-CAED-4FC1-BA96-B42781FEDFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC40CF5B-CAED-4FC1-BA96-B42781FEDFDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E51113A-E695-4E68-B106-0CE6ED22CBA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E51113A-E695-4E68-B106-0CE6ED22CBA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E51113A-E695-4E68-B106-0CE6ED22CBA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E51113A-E695-4E68-B106-0CE6ED22CBA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
