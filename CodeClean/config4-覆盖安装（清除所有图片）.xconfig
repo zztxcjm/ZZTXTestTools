@@ -1,0 +1,105 @@
+
+#程序目录
+/D common/Common
+/D common/CommonWeb
+/D common/Common.ApiExtension
+/D common/Common.MvcExtension
+/D Facehand.ZJ.DataAccessor
+/D platform/BusinessProject
+/D platform/LogicProject
+/F platform/ReadMe.txt
+/D FaceHand.Comment.DataAccessor
+/D FaceHand.Mall.DataAccessor
+/D FaceHand.Members.DataAccessor
+/D FaceHand.Product.DataAccessor
+/D FaceHand.Transaction.DataAccessor
+/D FaceHand.OpenRelation.DataAccessor
+/D FaceHand.OpenRelation.Entity
+/D FaceHand.Annex.DataAccessor
+/D Facehand.ZJ.DataAccessor
+/D FaceHand.SMS.DataAccessor
+/D FaceHand.CRM.DataAccessor
+/D FaceHand.CRM.Entity
+/D FaceHand.Payment.DataAccessor
+/D FaceHand.Payment.Entity
+/D FaceHand.Members.WebUI
+/D facehand.smartorder
+/D FaceHand.mpweixin.Entity
+/D Facehand.SmartOrder.Model
+/D FaceHand.Salary.Entity
+/D FaceHand.Birthday.DataAccessor
+/D FaceHand.Birthday.Entity
+/D facehand.smartorder
+/D FaceHand.Exam.DataAccessor
+/D FaceHand.Exam.Entity
+/D FaceHand.DC
+/D .vs
+/D ServicesUtils
+/D common/Common.Files/bin
+/D Controllers !/Resources/*
+/D AppCode
+/D Models
+/D obj
+/D Properties
+/D App_Data
+/D App_Start
+/D packages
+/D WebApi\Views
+/D WebApi\Areas
+/D IMServices\Cert
+/D IMServices\WebSocket
+/D MobileApi\Areas
+/D WeixinProxy\Areas\AppPack
+/D WeixinProxy\Areas\AppProxy
+/F Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+/D CombatTools
+/D roslyn
+/D zh-Hans
+/D FaceHand.OpenRelation.ApiTests
+/D OpenRelation2Tests
+/D FaceHand.MpWeixin.DataAccessor
+/D ScanTool
+/D WeizhanProxy
+
+#临时目录
+/D Log
+/D CommunityWeb\TempFile
+
+#资源文件目录
+/D SwfUpload
+/D ueditor
+/D ligerUI
+/D ligerUI123
+/D datepicker
+/D highcharts
+/D echarts
+
+#文件
+/F packages.config
+/F *.vspscc
+/F *.user
+/F *.csproj
+/F *.suo
+/F *.sln
+/F *.vssscc
+/F *.cs
+/F *.xml
+/F *.pdb
+/F *.png
+/F *.jpg
+/F *.gif
+/F *.dll.config
+
+#通知服务客户端配置文件
+/F clients.json
+
+#运营后台账号配置文件
+/F Account.config
+
+#移动端静态域名解析文件
+/F Domain.config
+
+#web配置文件
+/F web.config !/Views
+/F web.Debug.config
+/F web.Release.config
