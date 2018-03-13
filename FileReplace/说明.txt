@@ -1,0 +1,16 @@
+#1、源文件为绝对路径
+FileReplace C:\Users\Administrator\Desktop\文件替换\file\FaceHand.Common.SDK.dll C:\ZZTXData\WebV2
+
+#2、源文件在当前目录下的子目录中
+FileReplace file\FaceHand.Common.SDK.dll C:\ZZTXData\WebV2
+
+#3、源文件当当前目录下
+FileReplace FaceHand.Common.SDK.dll C:\ZZTXData\WebV2
+
+
+
+#FileReplace的三个参数
+FileReplace srcFile targetPath [needConfirm]
+--srcFile 		源文件
+--targetPath 		目标路径
+--[needConfirm] 	可选参数，是否需要确认后在覆盖，不填、no、auto三个参数无需确认，如果需要确认填yes
