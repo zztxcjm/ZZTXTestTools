@@ -76,18 +76,18 @@ namespace WSPreLoad
                             ? "127.0.0.1"
                             : bind.Host;
 
-                        var url = $"{bind.Protocol}://{host}" + (bind.EndPoint.Port != 80 && bind.EndPoint.Port != 447 ? ":" + bind.EndPoint.Port : "");
-                        re.Add(new WebApp() { SiteName = site.Name, Url = url });
+                        var url = $"{bind.Protocol}://{host}" + (bind.EndPoint.Port != 80 && bind.EndPoint.Port != 443 ? ":" + bind.EndPoint.Port : "");
+                        re.Add(new WebApp() { SiteName = site.Name, Url = ProcessUrl(url) });
 
-                        WebAppChildPattern(site.Name, url, re);
+                        //WebAppChildPattern(site.Name, url, re);
 
                         foreach (var app in site.Applications)
                         {
                             if (app.Path != "/")
                             {
-                                var cur = new WebApp() { SiteName = site.Name, Url = url + app.Path };
+                                var cur = new WebApp() { SiteName = site.Name, Url = ProcessUrl(url + app.Path) };
                                 re.Add(cur);
-                                WebAppChildPattern(site.Name, cur.Url, re);
+                                //WebAppChildPattern(site.Name, cur.Url, re);
                             }
                         }
                     }
@@ -95,6 +95,29 @@ namespace WSPreLoad
             }
 
             return re;
+
+        }
+
+        private static string ProcessUrl(string url)
+        {
+
+            if (String.IsNullOrEmpty(url))
+                return null;
+
+            var val = System.Configuration.ConfigurationManager.AppSettings[url];
+            if (!String.IsNullOrEmpty(val))
+            {
+                return url.TrimEnd('/') + '/' + val.TrimStart('/');
+            }
+
+            var defaultRequestUrI = System.Configuration.ConfigurationManager.AppSettings["DefaultRequestUrI"];
+            if (!String.IsNullOrEmpty(defaultRequestUrI))
+            {
+                return url.TrimEnd('/') + '/' + defaultRequestUrI.TrimStart('/');
+            }
+
+            return url;
+
 
         }
 
@@ -123,9 +146,10 @@ namespace WSPreLoad
         {
             var request = (HttpWebRequest)HttpWebRequest.Create(url);
             request.Accept = "*/*";
-            request.Method = "GET";
+            request.Method = "POST";
             request.UserAgent = "ZZTX WSPreLoad";
             request.ContentType = "text/html";
+            request.ContentLength = 0;
 
             var WebRequestTimeOut = System.Configuration.ConfigurationManager.AppSettings["WebRequestTimeOut"];
             if (String.IsNullOrEmpty(WebRequestTimeOut))
