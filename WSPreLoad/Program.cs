@@ -12,8 +12,17 @@ namespace WSPreLoad
 {
     class Program
     {
+        static bool onlyLocal = false;
+        static bool autoclose = false;
+
         static void Main(string[] args)
         {
+
+            if(args.Length>0)
+            {
+                onlyLocal = args.Contains("onlylocal", StringComparer.CurrentCultureIgnoreCase);
+                autoclose = args.Contains("autoclose", StringComparer.CurrentCultureIgnoreCase);
+            }
 
             var appList = GetWebAppList();
 
@@ -29,14 +38,7 @@ namespace WSPreLoad
                     {
                         try
                         {
-
-                            var startDate = DateTime.Now;
-                            var httpcode = 0;
-                            var resp = SendRequest(webapp.Url, out httpcode);
-                            var endDate = DateTime.Now;
-
-                            Console.WriteLine($"{webapp.Url}，code:{httpcode},time:{(endDate - startDate).TotalMilliseconds}ms");
-
+                            var resp = SendRequest(webapp.Url);
                         }
                         catch (Exception ex)
                         {
@@ -54,7 +56,7 @@ namespace WSPreLoad
             }).Wait();
 
             //自动任务时自动关闭
-            if (args == null || args.Length == 0)
+            if (!autoclose)
             {
                 Console.ReadLine();
             }
@@ -77,17 +79,17 @@ namespace WSPreLoad
                             : bind.Host;
 
                         var url = $"{bind.Protocol}://{host}" + (bind.EndPoint.Port != 80 && bind.EndPoint.Port != 443 ? ":" + bind.EndPoint.Port : "");
-                        re.Add(new WebApp() { SiteName = site.Name, Url = ProcessUrl(url) });
+                        re.Add(new WebApp() { SiteName = site.Name, Url = defaultUrlPath(url) });
 
-                        //WebAppChildPattern(site.Name, url, re);
+                        WebAppChildPattern(site.Name, url, re);
 
                         foreach (var app in site.Applications)
                         {
                             if (app.Path != "/")
                             {
-                                var cur = new WebApp() { SiteName = site.Name, Url = ProcessUrl(url + app.Path) };
+                                var cur = new WebApp() { SiteName = site.Name, Url = defaultUrlPath(url + app.Path) };
                                 re.Add(cur);
-                                //WebAppChildPattern(site.Name, cur.Url, re);
+                                WebAppChildPattern(site.Name, cur.Url, re);
                             }
                         }
                     }
@@ -98,17 +100,11 @@ namespace WSPreLoad
 
         }
 
-        private static string ProcessUrl(string url)
+        private static string defaultUrlPath(string url)
         {
 
             if (String.IsNullOrEmpty(url))
                 return null;
-
-            var val = System.Configuration.ConfigurationManager.AppSettings[url];
-            if (!String.IsNullOrEmpty(val))
-            {
-                return url.TrimEnd('/') + '/' + val.TrimStart('/');
-            }
 
             var defaultRequestUrI = System.Configuration.ConfigurationManager.AppSettings["DefaultRequestUrI"];
             if (!String.IsNullOrEmpty(defaultRequestUrI))
@@ -142,14 +138,22 @@ namespace WSPreLoad
 
         }
 
-        private static string SendRequest(string url, out int code)
+        private static string SendRequest(string url)
         {
+
+            var uri = new Uri(url);
+            if (onlyLocal)
+            {
+                url = url.Replace(uri.Host, "127.0.0.1");
+            }
+
             var request = (HttpWebRequest)HttpWebRequest.Create(url);
             request.Accept = "*/*";
             request.Method = "POST";
             request.UserAgent = "ZZTX WSPreLoad";
             request.ContentType = "text/html";
             request.ContentLength = 0;
+            request.Host = uri.Host;
 
             var WebRequestTimeOut = System.Configuration.ConfigurationManager.AppSettings["WebRequestTimeOut"];
             if (String.IsNullOrEmpty(WebRequestTimeOut))
@@ -167,22 +171,37 @@ namespace WSPreLoad
                 }
             }
 
-            //获取请求
-            using (HttpWebResponse wr = (HttpWebResponse)request.GetResponse())
+            try
             {
-                code = (int)wr.StatusCode;
 
-                if (wr.StatusCode == HttpStatusCode.OK)
+                //获取请求
+                var startDate = DateTime.Now;
+                using (HttpWebResponse wr = (HttpWebResponse)request.GetResponse())
                 {
-                    using (var st = wr.GetResponseStream())
+
+                    Console.WriteLine($"{url}，host:{uri.Host}，code:{(int)wr.StatusCode}，time:{(DateTime.Now - startDate).TotalMilliseconds}ms");
+
+                    if (wr.StatusCode == HttpStatusCode.OK)
                     {
-                        using (StreamReader rs = new StreamReader(st, System.Text.Encoding.UTF8))
+                        using (var st = wr.GetResponseStream())
                         {
-                            return rs.ReadToEnd();
+                            using (StreamReader rs = new StreamReader(st, System.Text.Encoding.UTF8))
+                            {
+                                return rs.ReadToEnd();
+                            }
                         }
                     }
+
+
                 }
+
+
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{url}，host:{uri.Host}，exception:{ex.Message}");
+            }
+
 
             return String.Empty;
 
