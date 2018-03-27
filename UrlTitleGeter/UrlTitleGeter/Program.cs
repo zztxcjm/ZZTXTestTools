@@ -23,7 +23,8 @@ namespace UrlTitleGeter
         {
             //var title = String.Empty;
             //var tryAgain = false;
-            //TryGetTitle("https://mp.weixin.qq.com/s?__biz=MzA4NzQxODQwMA==&mid=2650266369&idx=1&sn=fff9b61334a6548ac1698890e764de8e&chksm=883ac84ebf4d41586085a9f31ded2295ad6e8637b0c97e1ed802a16257b954cf5b9834214f53#rd", out title, out tryAgain);
+            //var httpCode = -1;
+            //TryGetTitle("http://m.toutiao11.com/i6527158158073266702/?iid=26115894863&app=news_article&timestamp=1519824971&wxshare_count=14&tt_from=weixin&utm_source=weixin&utm_medium=toutiao_android&utm_campaign=client_share&pbid=6537172076217468430&from=groupmessage&isappinstalled=0", out title, out tryAgain,out httpCode);
 
             //Console.WriteLine(tryAgain);
             //Console.WriteLine(title);
@@ -339,7 +340,7 @@ namespace UrlTitleGeter
 
         //<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         private static System.Text.RegularExpressions.Regex charset_regex =
-            FaceHand.Common.Util.RegExt.CreateFromCache("charset=\"{0,1}([^\\s\"]+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            FaceHand.Common.Util.RegExt.CreateFromCache("charset=\"{0,1}([^\\s\">]+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
         //<meta http-equiv="Content-Language" content="utf-8" />
         private static System.Text.RegularExpressions.Regex content_language_regex =
@@ -360,154 +361,158 @@ namespace UrlTitleGeter
 
                 var wq = (HttpWebRequest)HttpWebRequest.Create(url);
                 wq.Method = "GET";
-                wq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36";
+                wq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36";
                 wq.ContentType = "text/html;";
                 wq.Timeout = 30000;
 
                 using (var resp = (HttpWebResponse)wq.GetResponse())
                 {
-                    //请求成功
-                    if (resp.StatusCode == HttpStatusCode.OK)
+
+                    if (resp.ContentType.Contains("text/html"))
                     {
-                        //编码明确
-                        if (!String.IsNullOrEmpty(resp.ContentEncoding))
+
+                        //请求成功
+                        if (resp.StatusCode == HttpStatusCode.OK)
                         {
-                            //获取标题
-                            using (var st = resp.GetResponseStream())
+                            //编码明确
+                            if (!String.IsNullOrEmpty(resp.ContentEncoding))
                             {
-                                using (StreamReader rs = new StreamReader(resp.GetResponseStream(), Encoding.GetEncoding(resp.ContentEncoding)))
+                                //获取标题
+                                using (var st = resp.GetResponseStream())
                                 {
-                                    while (!rs.EndOfStream)
+                                    using (StreamReader rs = new StreamReader(resp.GetResponseStream(), Encoding.GetEncoding(resp.ContentEncoding)))
                                     {
-                                        var line = rs.ReadLine();
-                                        if (line == null)
-                                            break;
-
-                                        var re = title_regex.Match(line);
-                                        if (re.Success)
+                                        while (!rs.EndOfStream)
                                         {
-                                            title = re.Groups[1].Value;
-                                            return true;
-                                        }
-
-                                    }
-                                }
-                            }
-
-                        }
-                        else//编码不明确
-                        {
-
-                            byte[] title_bytes = null;
-                            string c_encode = string.Empty;
-
-                            var bytes = new List<byte>();
-                            using (var rs = resp.GetResponseStream())
-                            {
-                                while (rs.CanRead)
-                                {
-                                    int d = rs.ReadByte();
-                                    if (d == -1)
-                                    {
-                                        break;
-                                    }
-
-                                    if (d == '\r' || d == '\n')
-                                    {
-                                        if (bytes.Count != 0)
-                                        {
-                                            var line_bytes = bytes.ToArray();
-                                            var line_string = Encoding.UTF8.GetString(line_bytes);
-                                            //去掉里面的注释，防止被匹配干扰
-                                            line_string = comment_regex.Replace(line_string, String.Empty);
-
-                                            if (line_string.IndexOf("<title>", StringComparison.CurrentCultureIgnoreCase) != -1)
-                                            {
-                                                //将title行的bytes数据放入缓存
-                                                title_bytes = line_bytes;
-
-                                                if (!String.IsNullOrEmpty(c_encode))
-                                                    break;
-
-                                            }
-                                            if (line_string.IndexOf("charset=") != -1)
-                                            {
-                                                var re = charset_regex.Match(line_string);
-                                                if (re.Success)
-                                                {
-                                                    c_encode = re.Groups[1].Value;
-                                                    if (title_bytes != null && title_bytes.Length > 0)
-                                                        break;
-                                                }
-                                            }
-                                            if (line_string.IndexOf("Content-Language") != -1)
-                                            {
-                                                var re = charset_regex.Match(line_string);
-                                                if (re.Success)
-                                                {
-                                                    c_encode = re.Groups[1].Value;
-                                                    if (title_bytes != null && title_bytes.Length > 0)
-                                                        break;
-                                                }
-                                            }
-                                            if (line_string.IndexOf("</head>", StringComparison.CurrentCultureIgnoreCase) != -1)
-                                            {
+                                            var line = rs.ReadLine();
+                                            if (line == null)
                                                 break;
+
+                                            var re = title_regex.Match(line);
+                                            if (re.Success)
+                                            {
+                                                title = re.Groups[1].Value;
+                                                return true;
                                             }
-                                            //处理完一行换新行
-                                            bytes = new List<byte>();
+
                                         }
                                     }
-                                    else
-                                    {
-                                        bytes.Add((byte)d);
-                                    }
                                 }
-                            }
 
-                            if (title_bytes != null && title_bytes.Length > 0)
+                            }
+                            else//编码不明确
                             {
 
-                                string title_str = !String.IsNullOrEmpty(c_encode)
-                                    ? Encoding.GetEncoding(c_encode).GetString(title_bytes)
-                                    : Encoding.UTF8.GetString(title_bytes);
+                                byte[] title_bytes = null;
+                                string c_encode = string.Empty;
 
-                                var re = title_regex.Match(title_str);
-                                if (re.Success)
+                                var bytes = new List<byte>();
+                                using (var rs = resp.GetResponseStream())
+                                {
+                                    while (rs.CanRead)
+                                    {
+                                        int d = rs.ReadByte();
+                                        if (d == -1)
+                                        {
+                                            break;
+                                        }
+
+                                        if (d == '\r' || d == '\n')
+                                        {
+                                            if (bytes.Count != 0)
+                                            {
+                                                var line_bytes = bytes.ToArray();
+                                                var line_string = Encoding.UTF8.GetString(line_bytes);
+                                                //去掉里面的注释，防止被匹配干扰
+                                                line_string = comment_regex.Replace(line_string, String.Empty);
+
+                                                if (line_string.IndexOf("<title>", StringComparison.CurrentCultureIgnoreCase) != -1)
+                                                {
+                                                    //将title行的bytes数据放入缓存
+                                                    title_bytes = line_bytes;
+
+                                                    if (!String.IsNullOrEmpty(c_encode))
+                                                        break;
+
+                                                }
+                                                if (line_string.IndexOf("charset=") != -1)
+                                                {
+                                                    var re = charset_regex.Match(line_string);
+                                                    if (re.Success)
+                                                    {
+                                                        c_encode = re.Groups[1].Value;
+                                                        if (title_bytes != null && title_bytes.Length > 0)
+                                                            break;
+                                                    }
+                                                }
+                                                if (line_string.IndexOf("Content-Language") != -1)
+                                                {
+                                                    var re = charset_regex.Match(line_string);
+                                                    if (re.Success)
+                                                    {
+                                                        c_encode = re.Groups[1].Value;
+                                                        if (title_bytes != null && title_bytes.Length > 0)
+                                                            break;
+                                                    }
+                                                }
+                                                if (line_string.IndexOf("</head>", StringComparison.CurrentCultureIgnoreCase) != -1)
+                                                {
+                                                    break;
+                                                }
+                                                //处理完一行换新行
+                                                bytes = new List<byte>();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            bytes.Add((byte)d);
+                                        }
+                                    }
+                                }
+
+                                if (title_bytes != null && title_bytes.Length > 0)
                                 {
 
-                                    title = re.Groups[1].Value;
-                                    if (title != null && title.Length > 0)
-                                        title = title.Trim();
+                                    string title_str = !String.IsNullOrEmpty(c_encode)
+                                        ? Encoding.GetEncoding(c_encode).GetString(title_bytes)
+                                        : Encoding.UTF8.GetString(title_bytes);
 
-                                    if (title.IsMessyCode())
+                                    var re = title_regex.Match(title_str);
+                                    if (re.Success)
                                     {
-                                        title = String.Empty;
-                                    }
 
-                                    return true;
+                                        title = re.Groups[1].Value;
+                                        if (title != null && title.Length > 0)
+                                            title = title.Trim();
+
+                                        if (title.IsMessyCode())
+                                        {
+                                            title = String.Empty;
+                                        }
+
+                                        return true;
+
+                                    }
 
                                 }
 
                             }
 
                         }
-
-                    }
-                    //重定向到新地址
-                    else if (resp.StatusCode == HttpStatusCode.Found)
-                    {
-                        var redirect = resp.GetResponseHeader("Location");
-                        if (!String.IsNullOrEmpty(redirect))
+                        //重定向到新地址
+                        else if (resp.StatusCode == HttpStatusCode.Found)
                         {
-                            return TryWebGet(redirect, out title, out tryAgain, out httpcode);
+                            var redirect = resp.GetResponseHeader("Location");
+                            if (!String.IsNullOrEmpty(redirect))
+                            {
+                                return TryWebGet(redirect, out title, out tryAgain, out httpcode);
+                            }
+                        }
+                        else
+                        {
+                            httpcode = (int)resp.StatusCode;
                         }
                     }
-                    else
-                    {
-                        httpcode = (int)resp.StatusCode;
-                    }
-
                 }
 
             }
