@@ -24,7 +24,7 @@ namespace UrlTitleGeter
             //var title = String.Empty;
             //var tryAgain = false;
             //var httpCode = -1;
-            //TryGetTitle("http://m.toutiao11.com/i6527158158073266702/?iid=26115894863&app=news_article&timestamp=1519824971&wxshare_count=14&tt_from=weixin&utm_source=weixin&utm_medium=toutiao_android&utm_campaign=client_share&pbid=6537172076217468430&from=groupmessage&isappinstalled=0", out title, out tryAgain,out httpCode);
+            //TryGetTitle("https://weidian.com/item.html?itemID=2258301029&wfr=qr&spider_token=98a6&spider=seller.zx-shopdetail.5.4", out title, out tryAgain, out httpCode);
 
             //Console.WriteLine(tryAgain);
             //Console.WriteLine(title);
@@ -435,7 +435,7 @@ namespace UrlTitleGeter
                                                         break;
 
                                                 }
-                                                if (line_string.IndexOf("charset=") != -1)
+                                                if (String.IsNullOrEmpty(c_encode) && line_string.IndexOf("charset=") != -1)
                                                 {
                                                     var re = charset_regex.Match(line_string);
                                                     if (re.Success)
@@ -445,7 +445,7 @@ namespace UrlTitleGeter
                                                             break;
                                                     }
                                                 }
-                                                if (line_string.IndexOf("Content-Language") != -1)
+                                                if (String.IsNullOrEmpty(c_encode) && line_string.IndexOf("Content-Language") != -1)
                                                 {
                                                     var re = charset_regex.Match(line_string);
                                                     if (re.Success)
